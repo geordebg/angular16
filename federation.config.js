@@ -1,12 +1,15 @@
 const { withNativeFederation, shareAll } = require('@angular-architects/native-federation/config');
 
 module.exports = withNativeFederation({
+
   name: 'angular16',
 
   exposes: {
     './routes': './src/app/app.routes.ts',
-    './Home': './src/app/home/home.component.ts'
+    './Component': './src/app/app.component.ts',
+    './Holidays': './src/app/holidays/holidays.component.ts'
   },
+
   shared: {
     ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto' }),
   },

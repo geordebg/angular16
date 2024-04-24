@@ -7,7 +7,14 @@
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
-					"style": "sass"
+					"style": "scss",
+					"standalone": true
+				},
+				"@schematics/angular:directive": {
+					"standalone": true
+				},
+				"@schematics/angular:pipe": {
+					"standalone": true
 				}
 			},
 			"root": "",
@@ -31,10 +38,10 @@
 				"serve": {
 					"builder": "@angular-architects/native-federation:build",
 					"options": {
-						"target": "angular16:serve-original:development",
+						"target": "angular16:esbuild:development",
 						"rebuildDelay": 0,
 						"dev": true,
-						"port": 0
+						"port": 4204
 					}
 				},
 				"extract-i18n": {
@@ -51,37 +58,37 @@
 							"zone.js/testing"
 						],
 						"tsConfig": "tsconfig.spec.json",
-						"inlineStyleLanguage": "sass",
+						"inlineStyleLanguage": "scss",
 						"assets": [
 							"src/favicon.ico",
 							"src/assets"
 						],
 						"styles": [
-							"src/styles.sass"
+							"src/styles.scss"
 						],
 						"scripts": []
 					}
 				},
 				"esbuild": {
-					"builder": "@angular-devkit/build-angular:application",
+					"builder": "@angular-devkit/build-angular:browser-esbuild",
 					"options": {
 						"outputPath": "dist/angular16",
 						"index": "src/index.html",
+						"main": "src/main.ts",
 						"polyfills": [
 							"zone.js",
 							"es-module-shims"
 						],
 						"tsConfig": "tsconfig.app.json",
-						"inlineStyleLanguage": "sass",
+						"inlineStyleLanguage": "scss",
 						"assets": [
 							"src/favicon.ico",
 							"src/assets"
 						],
 						"styles": [
-							"src/styles.sass"
+							"src/styles.scss"
 						],
-						"scripts": [],
-						"browser": "src/main.ts"
+						"scripts": []
 					},
 					"configurations": {
 						"production": {
@@ -100,7 +107,9 @@
 							"outputHashing": "all"
 						},
 						"development": {
+							"buildOptimizer": false,
 							"optimization": false,
+							"vendorChunk": true,
 							"extractLicenses": false,
 							"sourceMap": true,
 							"namedChunks": true
@@ -112,16 +121,13 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
 						"production": {
-							"buildTarget": "angular16:esbuild:production"
+							"browserTarget": "angular16:build:production"
 						},
 						"development": {
-							"buildTarget": "angular16:esbuild:development"
+							"browserTarget": "angular16:build:development"
 						}
 					},
-					"defaultConfiguration": "development",
-					"options": {
-						"port": 4300
-					}
+					"defaultConfiguration": "development"
 				}
 			}
 		}
